@@ -1,0 +1,17 @@
+1. How is lane following achieved:
+    In order to follow lane, in the video, the solution mainly revolved around the frenet coordinates (s far along the road and d lateral distance from the center of the road). Knowing that a lane has a d of 4, then for example we would have the middle of the middle lane has d of 6, then we could advance through s and use getXY() in order to plan the next position of our car.
+2. How to use spline to generate a smooth trajectory:
+    Spline uses a series of anchor points in order to generate a smooth curve. First we got a list of previous points so that we know where the car is heading toward to. Other than the previous points, we also add 3 waypoints in the future so that we can use spline to interpolate the feature points. Then, we can use the interpolated points to add points based on a future time interval (here is 0.02). 
+3. How to avoid collision with the car in front?
+    We can avoid collision with the car in front by monitoring the sensor fusion vector and calculate the surrounding objects future location (here we look at the car in front). If the car in front get too close (the future location check_car_s computed with its current location and speed), then we would decrease the speed of our current car so that we don't collide.
+4. How to avoid cold start:
+    We can avoid cold start by starting the vehicle speed ref_vel at 0, then we could incrase gradually the speed by 0.224 at each time interval. This would avoid the cold start directly at max speed.
+
+
+Writeup, my approach:
+I did not modify much of the provided trajectory generation code, but simply added code for checking lanes and changing lanes. In my approach, I start with a vector of boolean vector<bool> lane_occupied, which I'll fill according if each of the three lanes are occupied already. To flag if a lane is occupied, I have three conditions: I used the car_s and check_car_s to see if two cars are very close in interval or if a car has a big difference in speed and close to our car. Then, using the provided trajectory generation code, if the vehicle in front gets too close, instead of slowing down, we could check if any of the adjacent lanes are free, then we could perform a lane change. If no lanes are available, we would result to default slowing down.
+
+I added a small simple condition which allows the car to go to the middle lane when it is free, as this could give us more lane change possibility when there is traffic.
+
+An improvement to my current model would be to check, given two possible lanes, which lanes has a car in front. This way, we would not change lane and get stuck behind another car.
+

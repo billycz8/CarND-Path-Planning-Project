@@ -12,11 +12,11 @@ set(sources src/main.cpp)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") 
 
-include_directories(/usr/local/include)
-include_directories(/usr/local/opt/openssl/include)
-link_directories(/usr/local/lib)
-link_directories(/usr/local/opt/openssl/lib)
-link_directories(/usr/local/Cellar/libuv/1.11.0/lib)
+include_directories(/opt/homebrew/include)
+include_directories(/opt/homebrew/opt/openssl@3/include)
+link_directories(/opt/homebrew/lib)
+link_directories(/opt/homebrew/opt/openssl@3/lib)
+link_directories(/opt/homebrew/Cellar/libuv/1.44.2/lib)  
 
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") 
 
